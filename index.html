@@ -136,8 +136,10 @@ function render(data){
   const listEl = document.getElementById('list');
   const sorted = [...data].sort((a,b) => b.date.localeCompare(a.date));
 
-  document.getElementById('statCount').textContent = sorted.length;
-  document.getElementById('statStreak').textContent = calcStreak(sorted);
+  const uniqueDates = [...new Set(sorted.map(e => e.date))].sort((a,b) => b.localeCompare(a));
+
+  document.getElementById('statCount').textContent = uniqueDates.length;
+  document.getElementById('statStreak').textContent = calcStreak(uniqueDates);
 
   if(sorted.length === 0){
     listEl.innerHTML = '<div class="empty">아직 기록된 감사일기가 없습니다.</div>';
@@ -163,12 +165,12 @@ function render(data){
   `).join('');
 }
 
-function calcStreak(sortedDesc){
-  if(sortedDesc.length === 0) return 0;
+function calcStreak(uniqueDatesDesc){
+  if(uniqueDatesDesc.length === 0) return 0;
   let streak = 1;
-  for(let i=0;i<sortedDesc.length-1;i++){
-    const cur = new Date(sortedDesc[i].date);
-    const next = new Date(sortedDesc[i+1].date);
+  for(let i=0;i<uniqueDatesDesc.length-1;i++){
+    const cur = new Date(uniqueDatesDesc[i]);
+    const next = new Date(uniqueDatesDesc[i+1]);
     const diffDays = Math.round((cur - next) / 86400000);
     if(diffDays === 1){ streak++; } else { break; }
   }

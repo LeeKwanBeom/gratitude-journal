@@ -30,6 +30,13 @@
   }
   header{
     margin-bottom:48px;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    padding-top:56px;
+    margin-top:-56px;
+    z-index:10;
+    border-bottom:1px solid var(--line);
   }
   header h1{
     font-size:22px;
@@ -47,6 +54,7 @@
     gap:20px;
     margin-top:20px;
     padding-top:20px;
+    padding-bottom:20px;
     border-top:1px solid var(--line);
   }
   .stat{
@@ -117,6 +125,7 @@
       <div class="stats">
         <div class="stat"><b id="statCount">0</b>기록한 날</div>
         <div class="stat"><b id="statStreak">0</b>최근 연속 기록</div>
+        <div class="stat"><b id="statTotal">0</b>총 일기 개수</div>
       </div>
     </header>
 
@@ -140,6 +149,7 @@ function render(data){
 
   document.getElementById('statCount').textContent = uniqueDates.length;
   document.getElementById('statStreak').textContent = calcStreak(uniqueDates);
+  document.getElementById('statTotal').textContent = sorted.length;
 
   if(sorted.length === 0){
     listEl.innerHTML = '<div class="empty">아직 기록된 감사일기가 없습니다.</div>';
